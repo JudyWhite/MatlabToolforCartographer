@@ -1,7 +1,7 @@
 %% 动态显示前端位姿匹配过程
 clc; clear all; close all;
 
-path='/home/yaoshw/Downloads';
+path='/home/yaoshw/Downloads/imurec';
 front_prediction_pose = importdata([path '/initial pose in submap.txt']);
 fornt_estimate_pose   = importdata([path '/pose info.txt']);
 

@@ -10,9 +10,9 @@ R_estimate=[];
 
 for i=1:length(fornt_estimate_pose)
     pose_preT=front_prediction_pose(i,1:3);
-    pose_preR=qua2R(front_prediction_pose(i,4:7));
+    pose_preR=quat2rotm(front_prediction_pose(i,4:7));
     pose_estT=fornt_estimate_pose(i,1:3);
-    pose_estR=qua2R(fornt_estimate_pose(i,4:7));
+    pose_estR=quat2rotm(fornt_estimate_pose(i,4:7));
     
     T_prediction=[T_prediction;pose_preT];
     T_estimate=[T_estimate;pose_estT];
