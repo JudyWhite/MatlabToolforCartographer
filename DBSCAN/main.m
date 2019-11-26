@@ -12,12 +12,8 @@
 %
 
 %% Run DBSCAN Clustering Algorithm
-submap_index = 4 ;
 
-list = '/home/yaoshw/Downloads/912slamdata/tofpcdcir/list.txt';
-dataname = importdata(list);
-
-for i=200:600
+for i=200
     pcd = importdata(['/home/yaoshw/Downloads/imurec/points/pcd_' num2str(i) '.txt']);
     epsilon=0.2;
     MinPts=80;
