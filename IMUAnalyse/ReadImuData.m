@@ -26,4 +26,13 @@ imu_ext_time(imu_ext_time<t_start)=[];
 t_start = min(imu_ext_time(1),imu_time(1));
 imu_time = (imu_time - t_start)/1000000000;
 imu_ext_time = (imu_ext_time - t_start)/1000000000;
+
+subplot 211
+plot(imu_ext_time,imu_ext_data(:,1),'g');
+hold on;
+plot(imu_ext_time,imu_ext_data(:,2),'r');
+legend('X','Y')
+subplot 212
+plot(imu_ext_time,imu_ext_data(:,6));
+legend('deg')
 end

@@ -8,8 +8,8 @@ Rx = makehgtform('xrotate',deg(1)); %得到绕x的四维旋转矩阵
 Ry = makehgtform('yrotate',deg(2));
 Rz = makehgtform('zrotate',deg(3));
 rotx(ang(1)) == Rx(1:3,1:3);
-roty(ang(1)) == Ry(1:3,1:3);
-rotz(ang(1)) == Rz(1:3,1:3);
+roty(ang(2)) == Ry(1:3,1:3);
+rotz(ang(3)) == Rz(1:3,1:3);
 % R = eul2rotm(deg,'XYZ');
 % Rtmp = Rx*Ry*Rz;
 % R == Rtmp(1:3,1:3)

@@ -1,4 +1,4 @@
-function p = GetProbability(map,point,resolution)
+function p = GetProbability(map, point, resolution)
 %% 根据输入的子图和分辨率,以插值的方式获取点point处的概率值
 cellindex = round(point/resolution);
 center = cellindex*resolution;

@@ -16,7 +16,7 @@ end
 figure;
 subplot 311
 hold on;plot(T_back(:,1),'g')
-title("前端结果每帧位姿在三个轴上的变化")
+title("后端结果每帧位姿在三个轴上的变化")
 subplot 312
 hold on;plot(T_back(:,2),'g')
 subplot 313
@@ -25,7 +25,7 @@ hold on;plot(T_back(:,3),'g')
 figure;
 subplot 311
 hold on;plot(R_back(:,1),'g')
-title("前端结果每帧位姿旋转欧拉角变化")
+title("后端结果每帧位姿旋转欧拉角变化")
 subplot 312
 hold on;plot(R_back(:,2),'g')
 subplot 313
