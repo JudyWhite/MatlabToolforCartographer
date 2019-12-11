@@ -1,8 +1,8 @@
-
-submap_index = 40;
-point_index1 = 5096;
-point_index2 = 360;
-
+%% 将point_index1和point_index2按照前端位姿（imu结果）绘制在submap_index中
+submap_index = 20;
+point_index1 = 5900;
+point_index2 = 6500;
+path = '/home/yaoshw/Downloads';
 resolution = 0.02;
 
 label_pose = importdata([path '/pose info.txt']);

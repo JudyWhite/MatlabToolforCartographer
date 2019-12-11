@@ -18,16 +18,17 @@ for i=1:length(angles)
         end
         if(row>179)
             row = row -180;
-            scan_vec = fliplr(submap_radon(row+1,:));
+%             scan_vec = fliplr(submap_radon(row+1,:));
+            scan_vec = submap_radon(row+1,:);
         else
             scan_vec = submap_radon(row+1,:);
         end
         point_vec = point_radon(j+1,:);
-        point_fft = abs(fft(point_vec));
-        scan_fft = abs(fft(scan_vec));
-        score = score +  Similar(point_fft(1:15),scan_fft(1:15));
+%         point_fft = abs(fft(point_vec));
+%         scan_fft = abs(fft(scan_vec));
+%         score = score +  Similar(point_fft(1:15),scan_fft(1:15));
 %         score = score +  0.9*Similar(point_fft(1:15),scan_fft(1:15)) + 0.1*Similar(point_vec,scan_vec);
-%         score = score +  Similar(point_vec,scan_vec);
+        score = score +  Similar(point_vec,scan_vec);
     end
     result = [result;score/num];
 end

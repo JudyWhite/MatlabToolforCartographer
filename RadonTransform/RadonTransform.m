@@ -14,5 +14,11 @@ for i = 0:gap:179
         end
     end
 end
+tmp = [];
+for i=1:size(radon,1)
+    f = abs(fft(radon(i,:)));
+    tmp = [tmp;f(1:15)];
+end
+radon = tmp;
 end
 

@@ -1,21 +1,30 @@
 close all;
-submap_index = 41;
-submap_radon_index = 5163;
-point_index = 700;
+%% 利用radon变化的方法，计算point_index在submap_index中的最可能的回环结果
+submap_index = 2;
+submap_radon_index = 728-3;
+point_index = 7042;
 resolution = 0.02;
-path = '/home/yaoshw/Downloads/imurec';
+path = '/home/yaoshw/Downloads';
 
-submap_point = importdata([path '/submap/submapcon_index' num2str(submap_index) '.txt']);
+% submap_point = importdata([path '/submap/submapcon_index' num2str(submap_index) '.txt']);
+submap_point = importdata([path '/precomputationgrid/submap_' num2str(submap_index) '_depth_0.txt']);
 submap_point(submap_point(:,4)<0.51,:) = [];
+
+% method 1
 % submap_radon = RadonTransform(submap_point(:,1:3)*0.02,1,3);
-submap_radon = importdata([path '/radon/node' num2str(submap_radon_index+3) '.txt']);
+% method 2
+% submap_radon = importdata([path '/radon/node' num2str(submap_radon_index+3) '.txt']);
+% method 3
+point_s = importdata([path '/points/pcd_' num2str(submap_radon_index) '.txt']);
+submap_radon = RadonTransform(point_s,1,3);
+
 submap_pose = importdata([path '/submap/submap_pose' num2str(submap_index) '.txt']);
 submap_poseT = submap_pose(2,1:3);
 submap_poseR = quat2rotm(submap_pose(2,4:7));
 
 label_pose = importdata([path '/pose info.txt']);
 point = importdata([path '/points/pcd_' num2str(point_index) '.txt']);
-point_radon = RadonTransform(point+[-0 0 0],10,3);
+point_radon = RadonTransform(point,10,3);
 point = [point;[0 0 0]];
 point_poseT = label_pose(point_index+1,1:3);
 point_poseR = quat2rotm(label_pose(point_index+1,4:7));
@@ -29,12 +38,14 @@ scan_in_loop = related_poseR*point' + related_poseT;
 fliplr(rotm2eul(related_poseR,'ZYX'))
 
 eul_ang = fliplr(rotm2eul(related_poseR,'ZYX'));
-% initial_angle = eul_ang(3)
+label_radon_related_poseT = submap_poseR\label_radon_poseT' - submap_poseR\submap_poseT';
 label_radon_related_poseR = submap_poseR\label_radon_poseR;
+point_s_submap = label_radon_related_poseR*point_s' + label_radon_related_poseT;
 label_eul_ang = fliplr(rotm2eul(label_radon_related_poseR,'ZYX'));
+% initial_angle = eul_ang(3)
 initial_angle = eul_ang(3)-label_eul_ang(3)
 
-angles = -1.0:0.017:1.0;
+angles = -0.5:0.017:0.5;
 scores = RadonMatcher(submap_radon,point_radon,initial_angle,angles);
 selected_angle_pos = find(scores==max(scores));
 selected_angle = angles(selected_angle_pos(1))
@@ -65,13 +76,24 @@ related_ang = (initial_angle + selected_angle)*180/pi
 related_poseRradon = submap_poseR\rotz(selected_angle*180/pi)*point_poseR;
 scan_in_loop_rotation = related_poseRradon*point' + related_poseT;
 disp('旋转后在子图中位姿的欧拉角');
-fliplr(rotm2eul(related_poseRradon,'ZYX'))*180/pi
+pose = fliplr(rotm2eul(related_poseRradon,'ZYX'))*180/pi
+score = [CalScanScore(scan_in_loop', submap_point, 0.02) CalScanScore(scan_in_loop_rotation', submap_point, 0.02)]
 figure;
 plot(angles,scores);
 figure;
 scatter3(submap_point(:,1),submap_point(:,2),submap_point(:,3),5,[0.5 0.5 0.5],'filled','MarkerFaceAlpha',0.5);
 hold on;
+scatter3(point_s_submap(1,:)./resolution,point_s_submap(2,:)./resolution,point_s_submap(3,:)./resolution,8,'r','filled');
 scatter3(scan_in_loop(1,:)./resolution,scan_in_loop(2,:)./resolution,scan_in_loop(3,:)./resolution,8,'g','filled');
 scatter3(scan_in_loop_rotation(1,:)./resolution,scan_in_loop_rotation(2,:)./resolution,scan_in_loop_rotation(3,:)./resolution,8,'k','filled');
-legend('submap','scan in submap','rotation scan');
+legend('submap','submap radon','scan in submap','rotation scan');
 view(0,90);
+
+function score = CalScanScore(scan, submap, resolution)
+% 根据输入的帧,地图以及子图分辨率,计算该帧的平均得分
+score = 0;
+for i = 1:length(scan)
+    score = score + GetProbability(submap,scan(i,:),resolution);
+end
+score = score/length(scan);
+end

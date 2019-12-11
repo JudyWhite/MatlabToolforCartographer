@@ -1,4 +1,5 @@
-%% 动态显示前端位姿匹配过程
+%% 动态显示前端位姿匹配过程,
+%  显示内容当前scan与scan用于匹配的submap，其submap为更新当前scan之前的内容
 close all;
 
 path='/home/yaoshw/Downloads';
@@ -8,7 +9,7 @@ fornt_estimate_pose   = importdata([path '/pose info.txt']);
 Len=64;
 cb=[[linspace(1,0,Len)]',[linspace(1,0,Len)]',[linspace(1,0,Len)]'];
 
-for i = 1:100
+for i = 5900:10:6600
     submap = importdata([path '/front_submap/node' num2str(i+2) '_0.txt']);
     point = importdata([path '/points/pcd_' num2str(i-1) '.txt']);
     
@@ -19,14 +20,15 @@ for i = 1:100
     ori = [0,0,0];
     ori = Rinsub*ori' + Tinsub';
     ori = ori'./0.02;
-   
+%     layer = -2;
 %     submap(submap(:,4)<0.101,:)=[];
-%     submap(submap(:,3)>-1,:)=[];
-%     submap(submap(:,3)<-2,:)=[];
-%     point(point(:,3)>-1,:)=[];
-%     point(point(:,3)<-2,:)=[];
+%     submap(submap(:,3)~=layer,:)=[];
+%     submap(submap(:,3)<0,:)=[];
+%     point(point(:,3)~=layer,:)=[];
+%     point(point(:,3)<0,:)=[];
     submap(submap(:,4)<0.51,:)=[];
-    scatter3(submap(:,1),submap(:,2),submap(:,3),20,submap(:,4),'filled','MarkerFaceAlpha',1.0);
+    scatter3(submap(:,1),submap(:,2),submap(:,3),20,'k','filled','MarkerFaceAlpha',1.0);
+%     scatter3(submap(:,1),submap(:,2),submap(:,3),20,[0.5 0.5 0.5],'filled','MarkerFaceAlpha',0.5);
     colorbar;
     set(gcf,'colormap',cb);
     hold on;
@@ -34,6 +36,6 @@ for i = 1:100
     scatter3(ori(1),ori(2),ori(3),50,'g','filled');
     title(i);
     view(0,90);
-    pause(0.1);
+    pause(0.01);
     hold off;
 end

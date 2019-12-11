@@ -16,7 +16,8 @@ if b<0
     b=-b;
     c=-c;
 end
-[R q] = vector2RandQua([a b c],[0 1 0]);
-R1 = eul2rotm(fliplr([pi/2 0 pi]),'ZYX');
+[R q] = Vector2RandQua([a b c],[0 1 0]);
+R
+R1 = rotz(-10)*eul2rotm(fliplr([pi/2 0 pi]),'ZYX');
 T = R1*R;
-fliplr(rotm2eul(T,'ZYX'))
+urdf = fliplr(rotm2eul(T,'ZYX'))

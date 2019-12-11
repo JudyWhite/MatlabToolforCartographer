@@ -1,5 +1,6 @@
 clc;clear all;close all;
-path = '/home/yaoshw/Downloads/imurect';
+% 调用前端和后端位姿显示函数，最终将前后端的位姿画在一张图上
+path = '/home/yaoshw/Downloads';
 addpath('/home/yaoshw/matlabcode/Cartographer/FrontEnd');
 addpath('/home/yaoshw/matlabcode/Cartographer/BackEnd');
 [R_prediction, T_prediction, R_estimate, T_estimate] = ShowFrontPose(path);
@@ -9,6 +10,7 @@ figure;
 subplot 311;
 plot(T_estimate(:,1),'r--');
 hold on;plot(T_back(:,1),'g');
+legend('前端','后端');
 subplot 312;
 plot(T_estimate(:,2),'r--');
 hold on;plot(T_back(:,2),'g');

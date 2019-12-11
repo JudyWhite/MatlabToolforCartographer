@@ -1,8 +1,8 @@
-clear all;
+clear all;close all;
 %% 逐个显示回环帧与子图的匹配情况
 addpath('/home/yaoshw/matlabcode/Cartographer/DBSCAN')
 addpath('/home/yaoshw/matlabcode/Cartographer/FrontEnd')
-path = '/home/yaoshw/Downloads/imurec';
+path = '/home/yaoshw/Downloads';
 loop = importdata([path '/loop_close.txt']);
 loop_bc = importdata([path '/loop_close_bc.txt']);
 label_pose = importdata([path '/pose info.txt']);
@@ -10,7 +10,7 @@ scan_index = loop(:,1);
 submap_index = loop(:,2);
 resolution = 0.02;
 score = [];
-for i = 91%1:length(scan_index)
+for i = 186%1:length(scan_index)
     scan_ori = importdata([path '/points/pcd_' num2str(scan_index(i)) '.txt']);
     scan_ori = [scan_ori;[0 0 0]];%增加一个原点
     scan_seg = scan_ori;
@@ -41,7 +41,7 @@ for i = 91%1:length(scan_index)
     label_T = submap_poseR\scan_label_poseT' - submap_poseR\submap_poseT';
     scan_label_in_loop = label_R*scan_ori' + label_T;
     %直方图结果
-    histogram = importdata([path '/histogram/submap_' num2str(submap_index(i)) '_node_' num2str(scan_index(i)) '.txt']);
+    histogram = importdata([path '/histogram/se_submap_' num2str(submap_index(i)) '_node_' num2str(scan_index(i)) '.txt']);
     hist_pose = find(histogram(:,4)==max(histogram(:,4)));
     hist_pose_T = histogram(hist_pose(1),end-6:end-4);
     hist_pose_R = quat2rotm(histogram(hist_pose(1),end-3:end));
@@ -51,16 +51,16 @@ for i = 91%1:length(scan_index)
     %计算点云匹配得分
     score = [score;[CalScanScore(scan_ori_in_loop', submap, 0.02) CalScanScore(scan_label_in_loop', submap, 0.02)]];
     %可视化
-    figure;
     scatter3(submap(:,1),submap(:,2),submap(:,3),5,[0.5 0.5 0.5],'filled','MarkerFaceAlpha',0.5);
     hold on;
-    scatter3(scan_ori_in_loop(1,:)./resolution,scan_ori_in_loop(2,:)./resolution,scan_ori_in_loop(3,:)./resolution,8,'r','filled');
-    scatter3(scan_ori_in_loop_bc(1,:)./resolution,scan_ori_in_loop_bc(2,:)./resolution,scan_ori_in_loop_bc(3,:)./resolution,8,'b','filled');
-    scatter3(scan_hist_in_loop(1,:)./resolution,scan_hist_in_loop(2,:)./resolution,scan_hist_in_loop(3,:)./resolution,8,'k','filled');
     scatter3(scan_label_in_loop(1,:)./resolution,scan_label_in_loop(2,:)./resolution,scan_label_in_loop(3,:)./resolution,8,'g','filled');
+    scatter3(scan_hist_in_loop(1,:)./resolution,scan_hist_in_loop(2,:)./resolution,scan_hist_in_loop(3,:)./resolution,8,'k','filled');
+    scatter3(scan_ori_in_loop_bc(1,:)./resolution,scan_ori_in_loop_bc(2,:)./resolution,scan_ori_in_loop_bc(3,:)./resolution,8,'b','filled');
+    scatter3(scan_ori_in_loop(1,:)./resolution,scan_ori_in_loop(2,:)./resolution,scan_ori_in_loop(3,:)./resolution,8,'r','filled');
     title(['node: ' num2str(scan_index(i)) ' in submap: ' num2str(submap_index(i))]);
+    legend('submap','IMU position','histogram position','BAB position','Ceres position');
     view(0,90);
-    pause(0.01);
+    pause(1);
     hold off;
 end
 
