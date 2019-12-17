@@ -9,12 +9,13 @@ for i = 5900:10:6600
     point = importdata([path '/points/pcd_' num2str(i-1) '.txt']);
     Tinsub = fornt_estimate_pose(i,1:3);
     Rinsub = quat2rotm(fornt_estimate_pose(i,4:7));
+    fliplr(rotm2eul(Rinsub,'ZYX'));
     point = Rinsub*point' + Tinsub';
     point = round(point'./0.02);
     submap = [submap;point];
 end
 % 显示scan在submap中的位置
-for i = 6200:10:6600
+for i = 5900:10:6600
     point = importdata([path '/points/pcd_' num2str(i-1) '.txt']);
     Tinsub = fornt_estimate_pose(i,1:3);
     Rinsub = quat2rotm(fornt_estimate_pose(i,4:7));

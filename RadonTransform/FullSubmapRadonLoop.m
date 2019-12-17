@@ -1,10 +1,10 @@
 close all;
 %% 利用radon变化的方法，计算point_index在submap_index中的最可能的回环结果
-submap_index = 2;
-submap_radon_index = 728-3;
-point_index = 7042;
+submap_index = 19;
+submap_radon_index = 5963-3;
+point_index = 4579;
 resolution = 0.02;
-path = '/home/yaoshw/Downloads';
+path = '/home/yaoshw/Downloads/imurec17';
 
 % submap_point = importdata([path '/submap/submapcon_index' num2str(submap_index) '.txt']);
 submap_point = importdata([path '/precomputationgrid/submap_' num2str(submap_index) '_depth_0.txt']);
@@ -77,7 +77,7 @@ related_poseRradon = submap_poseR\rotz(selected_angle*180/pi)*point_poseR;
 scan_in_loop_rotation = related_poseRradon*point' + related_poseT;
 disp('旋转后在子图中位姿的欧拉角');
 pose = fliplr(rotm2eul(related_poseRradon,'ZYX'))*180/pi
-score = [CalScanScore(scan_in_loop', submap_point, 0.02) CalScanScore(scan_in_loop_rotation', submap_point, 0.02)]
+% score = [CalScanScore(scan_in_loop', submap_point, 0.02) CalScanScore(scan_in_loop_rotation', submap_point, 0.02)]
 figure;
 plot(angles,scores);
 figure;

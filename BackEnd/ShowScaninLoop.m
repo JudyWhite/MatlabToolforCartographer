@@ -2,7 +2,7 @@ clear all;close all;
 %% 逐个显示回环帧与子图的匹配情况
 addpath('/home/yaoshw/matlabcode/Cartographer/DBSCAN')
 addpath('/home/yaoshw/matlabcode/Cartographer/FrontEnd')
-path = '/home/yaoshw/Downloads';
+path = '/home/yaoshw/Downloads/imurec17';
 loop = importdata([path '/loop_close.txt']);
 loop_bc = importdata([path '/loop_close_bc.txt']);
 label_pose = importdata([path '/pose info.txt']);
@@ -10,7 +10,7 @@ scan_index = loop(:,1);
 submap_index = loop(:,2);
 resolution = 0.02;
 score = [];
-for i = 186%1:length(scan_index)
+for i = 185%1:length(scan_index)
     scan_ori = importdata([path '/points/pcd_' num2str(scan_index(i)) '.txt']);
     scan_ori = [scan_ori;[0 0 0]];%增加一个原点
     scan_seg = scan_ori;
@@ -47,7 +47,7 @@ for i = 186%1:length(scan_index)
     hist_pose_R = quat2rotm(histogram(hist_pose(1),end-3:end));
 %     hist_pose_R = [1 0 0;0 1 0;0 0 1];
     scan_hist_in_loop = hist_pose_R*scan_ori' + hist_pose_T';
-    fliplr(rotm2eul(hist_pose_R,'ZYX'))
+    fliplr(rotm2eul(hist_pose_R,'ZYX'));
     %计算点云匹配得分
     score = [score;[CalScanScore(scan_ori_in_loop', submap, 0.02) CalScanScore(scan_label_in_loop', submap, 0.02)]];
     %可视化
