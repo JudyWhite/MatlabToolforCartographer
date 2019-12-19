@@ -2,7 +2,7 @@ clear all;close all;
 %% 逐个显示回环帧与子图的匹配情况
 addpath('/home/yaoshw/matlabcode/Cartographer/DBSCAN')
 addpath('/home/yaoshw/matlabcode/Cartographer/FrontEnd')
-path = '/home/yaoshw/Downloads/imurec17';
+path = '/home/yaoshw/Downloads';
 loop = importdata([path '/loop_close.txt']);
 loop_bc = importdata([path '/loop_close_bc.txt']);
 label_pose = importdata([path '/pose info.txt']);
@@ -10,7 +10,7 @@ scan_index = loop(:,1);
 submap_index = loop(:,2);
 resolution = 0.02;
 score = [];
-for i = 185%1:length(scan_index)
+for i = 100%1:length(scan_index)
     scan_ori = importdata([path '/points/pcd_' num2str(scan_index(i)) '.txt']);
     scan_ori = [scan_ori;[0 0 0]];%增加一个原点
     scan_seg = scan_ori;
