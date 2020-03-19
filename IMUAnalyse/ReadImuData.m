@@ -16,7 +16,10 @@ imu_ext_time=str2num(cell2mat(imu_ext_time));
 imu_ext_data = imu_ext_data.data;
 imu_ext_data = imu_ext_data(:,1:6);
 
-pos = find(imu_ext_data==0);
+pos = find(imu_ext_data(:,1)==0);
+if(isempty(pos))
+    pos=1;
+end
 t_start = imu_ext_time(pos(1));
 imu_data(imu_time<t_start,:)=[];
 imu_time(imu_time<t_start)=[];

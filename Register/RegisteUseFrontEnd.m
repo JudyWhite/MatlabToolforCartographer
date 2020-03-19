@@ -1,8 +1,8 @@
-close all;
+clear all;close all;
 % 以submap_index所在的scan作为子图，以scan_index作为帧与子图进行配准，手动调整deg角度
 path = '/home/yaoshw/Downloads';
-submap_index = 0;
-scan_index = 100;
+submap_index = 409; %510,715,910
+scan_index = 406;   %520,720,920
 resolution = 0.02;
 % score = 0;
 % pose = [0,0,0];
@@ -13,12 +13,14 @@ resolution = 0.02;
 %     for j=-10:10
 %         for m=-10:10
             deg = [0 0 0]; % 角度制
+            trans = [0.0 0.0 0];
             deg = deg*pi/180;
             R = eul2rotm(fliplr(deg),'ZYX');
             label_pose = importdata([path '/pose info.txt']);
             submap = importdata([path '/points/pcd_' num2str(submap_index) '.txt']);
             submap_poseT = label_pose(submap_index+1,1:3);
             submap_poseR = quat2rotm(label_pose(submap_index+1,4:7));
+            submap = submap + trans;
             submap = submap_poseR*R*submap' + submap_poseT';
             submap = submap';
             submap = round(submap./0.02);
@@ -27,6 +29,7 @@ resolution = 0.02;
             scan = importdata([path '/points/pcd_' num2str(scan_index) '.txt']);
             scan_poseT = label_pose(scan_index+1,1:3);
             scan_poseR = quat2rotm(label_pose(scan_index+1,4:7));
+            scan = scan + trans;
             scan = scan_poseR*R*scan' + scan_poseT';
 %             s = CalScanScore(scan', submap, 0.02);
 %             if(score<s)

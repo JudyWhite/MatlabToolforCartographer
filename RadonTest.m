@@ -1,8 +1,9 @@
 close all;
 %% 计算point_index在submap_index中的回环结果,该文件做测试用
-submap_index = 2;
-submap_radon_index = 728-3;
-point_index = 7042;
+addpath('/home/yaoshw/matlabcode/Cartographer/RadonTransform')
+submap_index = 35;
+submap_radon_index = 1202-3; %radon文件夹中从0索引
+point_index = 3656;
 resolution = 0.02;
 path = '/home/yaoshw/Downloads';
 

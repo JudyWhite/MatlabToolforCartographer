@@ -1,8 +1,8 @@
 close all;
 %% 读取txt文件
 path = '/home/yaoshw/Downloads';
-submap_index = 1;
-scan_index = 20;
+submap_index = 105;
+scan_index = 106;
 pcd1 = importdata([path '/points/pcd_' num2str(submap_index) '.txt']);
 pcd2 = importdata([path '/points/pcd_' num2str(scan_index) '.txt']);
 label_pose = importdata([path '/pose info.txt']);
@@ -10,11 +10,16 @@ submap_poseT = label_pose(submap_index+1,1:3);
 submap_poseR = quat2rotm(label_pose(submap_index+1,4:7));
 scan_poseT = label_pose(scan_index+1,1:3);
 scan_poseR = quat2rotm(label_pose(scan_index+1,4:7));
-relaR = submap_poseR\scan_poseR
+relaR = submap_poseR\scan_poseR;
 diffT = scan_poseT-submap_poseT;
-relaT = submap_poseR\diffT'
+relaT = submap_poseR\diffT';
+Timu = zeros(4,4);
+Timu(1:3,1:3) = relaR;
+Timu(1:3,4) = relaT;
+Timu(4,4) = 1;
+Timu
 pcd2t = relaR*pcd2'+relaT;
-figure;
+subplot 121
 pcshowpair(pointCloud(pcd1),pointCloud(pcd2t'),'MarkerSize',30); %紫色，绿色
 xlabel('X')
 ylabel('Y')
@@ -37,26 +42,26 @@ pcd2 = pointCloud(pcd2);
 % Timu(1:3,4) = s;
 
 %% 非刚性变换
-figure;
-tform = pcregistercpd(pcd2,pcd1);
-movingReg = pctransform(pcd2,tform);
-pcshowpair(pcd1,movingReg,'MarkerSize',30);
-view(0,90)
-xlabel('X')
-ylabel('Y')
-zlabel('Z')
-title('CPD 配准')
+% figure;
+% tform = pcregistercpd(pcd2,pcd1);
+% movingReg = pctransform(pcd2,tform);
+% pcshowpair(pcd1,movingReg,'MarkerSize',30);
+% view(0,90)
+% xlabel('X')
+% ylabel('Y')
+% zlabel('Z')
+% title('CPD 配准')
 
-figure;
-gridStep = 0.1;
-tform = pcregisterndt(pcd2,pcd1,gridStep);
-movingReg = pctransform(pcd2,tform);
-pcshowpair(pcd1,movingReg,'MarkerSize',30);
-view(0,90)
-xlabel('X')
-ylabel('Y')
-zlabel('Z')
-title('NDT 配准')
+% figure;
+% gridStep = 0.1;
+% tform = pcregisterndt(pcd2,pcd1,gridStep);
+% movingReg = pctransform(pcd2,tform);
+% pcshowpair(pcd1,movingReg,'MarkerSize',30);
+% view(0,90)
+% xlabel('X')
+% ylabel('Y')
+% zlabel('Z')
+% title('NDT 配准')
 
 tform = pcregistericp(pcd2,pcd1,'Extrapolate',true);%T = pcregistericp(A,B,'Extrapolate',true); TA=B
 ptCloudTformed = pctransform(pcd2,tform);
@@ -64,11 +69,11 @@ ptCloudTformed = pctransform(pcd2,tform);
 % view(180,0)
 pcd2 = pcd2.Location;
 Ticp=tform.T;
-Ticp=Ticp';
-R=Ticp(1:3,1:3)
-T=Ticp(1:3,4)
-pcd2t=R*pcd2'+T;
-figure;
+Ticp=Ticp'
+icpR=Ticp(1:3,1:3);
+icpT=Ticp(1:3,4);
+pcd2t=icpR*pcd2'+icpT;
+subplot 122
 pcshowpair(pcd1,pointCloud(pcd2t'),'MarkerSize',30);
 xlabel('X')
 ylabel('Y')

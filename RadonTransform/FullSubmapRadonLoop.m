@@ -1,10 +1,10 @@
 close all;
 %% 利用radon变化的方法，计算point_index在submap_index中的最可能的回环结果
-submap_index = 19;
-submap_radon_index = 5963-3;
-point_index = 4579;
+submap_index = 10;
+submap_radon_index = 361-3;
+point_index = 1097;
 resolution = 0.02;
-path = '/home/yaoshw/Downloads/imurec17';
+path = '/home/yaoshw/Downloads';
 
 % submap_point = importdata([path '/submap/submapcon_index' num2str(submap_index) '.txt']);
 submap_point = importdata([path '/precomputationgrid/submap_' num2str(submap_index) '_depth_0.txt']);

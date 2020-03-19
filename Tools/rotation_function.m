@@ -44,3 +44,19 @@ q = rotm2quat(R)
 %q = [w x y z]
 
 %在Matlab里，可以用quatmultiply计算四元数乘法，用quatinv来计算四元数的逆，用quatconj来计算四元数的共轭
+
+%% 旋转矩阵转轴角
+% Create a matrix representing a 90-degree rotation about the Z -axis.
+% rotationMatrix = [0, -1, 0; 1, 0, 0; 0, 0, 1];
+% Find the equivalent rotation vector.
+% rotationVector = rotationMatrixToVector(rotationMatrix)
+% rotationVector = 1×3
+% 0         0   -1.5708
+rotationVector = rotationMatrixToVector(R) %返回为θn,即Axis with angle magnitude (radians)
+rotationVector = vrrotmat2vec(R)%两个函数实现类似的功能，返回值为Axis-angle ：Axis x y z Angle (radians)
+%逆变换函数
+rotationVectorToMatrix 
+vrrotvec2mat
+
+%% 计算两个向量之间的旋转矩阵轴角结果
+r = vrrotvec(a,b)  %Ra = b, r = vrrotmat2vec(R)

@@ -10,7 +10,7 @@ scan_index = loop(:,1);
 submap_index = loop(:,2);
 resolution = 0.02;
 score = [];
-for i = 100%1:length(scan_index)
+for i =1:length(scan_index)
     scan_ori = importdata([path '/points/pcd_' num2str(scan_index(i)) '.txt']);
     scan_ori = [scan_ori;[0 0 0]];%增加一个原点
     scan_seg = scan_ori;
@@ -25,8 +25,8 @@ for i = 100%1:length(scan_index)
     bc_index = find(loop_bc(:,1)==scan_index(i)&loop_bc(:,2)==submap_index(i));
     R_in_Loop_bc = quat2rotm(loop_bc(bc_index,end-3:end));
     T_in_Loop_bc = loop_bc(bc_index,end-6:end-4);
-    R_in_Loop = quat2rotm(loop(i,end-3:end));
-    T_in_Loop = loop(i,end-6:end-4);
+    R_in_Loop = quat2rotm(loop(i,end-4:end-1));
+    T_in_Loop = loop(i,end-7:end-5);
     %点云变换
     scan_seg_in_loop = R_in_Loop*scan_seg' + T_in_Loop';
     scan_ori_in_loop = R_in_Loop*scan_ori' + T_in_Loop';
@@ -60,7 +60,7 @@ for i = 100%1:length(scan_index)
     title(['node: ' num2str(scan_index(i)) ' in submap: ' num2str(submap_index(i))]);
     legend('submap','IMU position','histogram position','BAB position','Ceres position');
     view(0,90);
-    pause(1);
+    pause(2);
     hold off;
 end
 
