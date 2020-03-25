@@ -10,7 +10,7 @@ scan_index = loop(:,1);
 submap_index = loop(:,2);
 resolution = 0.02;
 score = [];
-for i =1:length(scan_index)
+for i = 48 %1:length(scan_index)
     scan_ori = importdata([path '/points/pcd_' num2str(scan_index(i)) '.txt']);
     scan_ori = [scan_ori;[0 0 0]];%增加一个原点
     scan_seg = scan_ori;
@@ -54,13 +54,14 @@ for i =1:length(scan_index)
     scatter3(submap(:,1),submap(:,2),submap(:,3),5,[0.5 0.5 0.5],'filled','MarkerFaceAlpha',0.5);
     hold on;
     scatter3(scan_label_in_loop(1,:)./resolution,scan_label_in_loop(2,:)./resolution,scan_label_in_loop(3,:)./resolution,8,'g','filled');
-    scatter3(scan_hist_in_loop(1,:)./resolution,scan_hist_in_loop(2,:)./resolution,scan_hist_in_loop(3,:)./resolution,8,'k','filled');
-    scatter3(scan_ori_in_loop_bc(1,:)./resolution,scan_ori_in_loop_bc(2,:)./resolution,scan_ori_in_loop_bc(3,:)./resolution,8,'b','filled');
+%     scatter3(scan_hist_in_loop(1,:)./resolution,scan_hist_in_loop(2,:)./resolution,scan_hist_in_loop(3,:)./resolution,8,'k','filled');
+%     scatter3(scan_ori_in_loop_bc(1,:)./resolution,scan_ori_in_loop_bc(2,:)./resolution,scan_ori_in_loop_bc(3,:)./resolution,8,'b','filled');
     scatter3(scan_ori_in_loop(1,:)./resolution,scan_ori_in_loop(2,:)./resolution,scan_ori_in_loop(3,:)./resolution,8,'r','filled');
     title(['node: ' num2str(scan_index(i)) ' in submap: ' num2str(submap_index(i))]);
-    legend('submap','IMU position','histogram position','BAB position','Ceres position');
+%     legend('submap','IMU position','histogram position','BAB position','Ceres position');
+    legend('submap','IMU position','Ceres position');
     view(0,90);
-    pause(2);
+    pause;
     hold off;
 end
 

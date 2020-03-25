@@ -1,10 +1,16 @@
 close all;
 %% 读取txt文件
 path = '/home/yaoshw/Downloads';
-submap_index = 105;
-scan_index = 106;
+submap_index = 254;
+scan_index = 259;
 pcd1 = importdata([path '/points/pcd_' num2str(submap_index) '.txt']);
 pcd2 = importdata([path '/points/pcd_' num2str(scan_index) '.txt']);
+% pcd1l=sqrt(sum(pcd1.*pcd1,2));
+% pcd2l=sqrt(sum(pcd2.*pcd2,2));
+% pcd1(pcd1(:,1)<-2,:)=[];
+% pcd1(pcd2l(:,1)>2,:)=[];
+% pcd2(pcd2(:,1)<-2,:)=[];
+% pcd2(pcd2l(:,1)>2,:)=[];
 label_pose = importdata([path '/pose info.txt']);
 submap_poseT = label_pose(submap_index+1,1:3);
 submap_poseR = quat2rotm(label_pose(submap_index+1,4:7));

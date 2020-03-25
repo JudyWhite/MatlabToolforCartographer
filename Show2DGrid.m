@@ -8,7 +8,7 @@ poseList = importdata([path '/2Dpose.txt']);
 fileNames={fileList.name};
 [baseTime,~,~] = GetXY(fileNames{1});
 Ang=[];
-for i= 1:length(fileList)
+for i= length(fileNames)
     hold off;
     filePath = [path '/submap/' fileNames{i}];
     [time,x,y] = GetXY(fileNames{i});
@@ -43,13 +43,13 @@ for i= 1:length(fileList)
         grid_submap(gridY+2,[gridX-2 gridX+2]) = 1;
     end
     
-    grid_submap(grid_submap<0.7)=0;
+    grid_submap(grid_submap<0.5)=0;
     subplot 121
-    imshow(grid_submap);
+    imshow(flipud(grid_submap));
     title([num2str(t) ' ' num2str(x) ' ' num2str(y)]);
     subplot 122
     plot(Ang)
-    pause(0.1);
+    pause(2);
 end
 
 

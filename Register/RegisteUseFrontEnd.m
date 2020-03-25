@@ -1,8 +1,8 @@
 clear all;close all;
 % 以submap_index所在的scan作为子图，以scan_index作为帧与子图进行配准，手动调整deg角度
 path = '/home/yaoshw/Downloads';
-submap_index = 409; %510,715,910
-scan_index = 406;   %520,720,920
+submap_index = 5; %510,715,910
+scan_index = 50;   %520,720,920
 resolution = 0.02;
 % score = 0;
 % pose = [0,0,0];

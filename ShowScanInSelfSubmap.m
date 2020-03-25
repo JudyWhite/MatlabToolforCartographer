@@ -5,11 +5,14 @@ path='/home/yaoshw/Downloads';
 fornt_estimate_pose   = importdata([path '/pose info.txt']);
 % 根据指定范围的scan创建submap
 submap = [];
-S = 4416;
-E = 4438;
-G = 1;
+S = 1700;
+E = 1795;
+G = 5;
 for i = S:G:E
     point = importdata([path '/points/pcd_' num2str(i-1) '.txt']);
+    if(isempty(point))
+        continue;
+    end
     Tinsub = fornt_estimate_pose(i,1:3);
     Rinsub = quat2rotm(fornt_estimate_pose(i,4:7));
     fliplr(rotm2eul(Rinsub,'ZYX'));
@@ -20,6 +23,9 @@ end
 % 显示scan在submap中的位置
 for i = S:G:E
     point = importdata([path '/points/pcd_' num2str(i-1) '.txt']);
+    if(isempty(point))
+        continue;
+    end
     Tinsub = fornt_estimate_pose(i,1:3);
     Rinsub = quat2rotm(fornt_estimate_pose(i,4:7));
     point = Rinsub*point' + Tinsub';
