@@ -1,8 +1,8 @@
 close all;
 %% 利用radon变化的方法，计算point_index在submap_index中的最可能的回环结果
-submap_index = 10;
-submap_radon_index = 361-3;
-point_index = 1097;
+submap_index = 14;
+submap_radon_index = 1484;
+point_index = 5100;
 resolution = 0.02;
 path = '/home/yaoshw/Downloads';
 

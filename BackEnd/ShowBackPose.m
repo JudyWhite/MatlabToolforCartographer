@@ -13,21 +13,21 @@ for i=1:length(back_pose)
     eulerAngles = fliplr(rotm2eul(pose_estR,'ZYX'));
     R_back=[R_back;eulerAngles];
 end
-figure;
-subplot 311
-hold on;plot(T_back(:,1),'g')
-title("后端结果每帧位姿在三个轴上的变化")
-subplot 312
-hold on;plot(T_back(:,2),'g')
-subplot 313
-hold on;plot(T_back(:,3),'g')
-
-figure;
-subplot 311
-hold on;plot(R_back(:,1),'g')
-title("后端结果每帧位姿旋转欧拉角变化")
-subplot 312
-hold on;plot(R_back(:,2),'g')
-subplot 313
-hold on;plot(R_back(:,3),'g')
+% figure;
+% subplot 311
+% hold on;plot(T_back(:,1),'g')
+% title("后端结果每帧位姿在三个轴上的变化")
+% subplot 312
+% hold on;plot(T_back(:,2),'g')
+% subplot 313
+% hold on;plot(T_back(:,3),'g')
+% 
+% figure;
+% subplot 311
+% hold on;plot(R_back(:,1),'g')
+% title("后端结果每帧位姿旋转欧拉角变化")
+% subplot 312
+% hold on;plot(R_back(:,2),'g')
+% subplot 313
+% hold on;plot(R_back(:,3),'g')
 end

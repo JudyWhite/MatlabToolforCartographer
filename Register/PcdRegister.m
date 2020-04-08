@@ -22,7 +22,7 @@ function varargout = PcdRegister(varargin)
 
 % Edit the above text to modify the response to help PcdRegister
 
-% Last Modified by GUIDE v2.5 24-Mar-2020 14:20:22
+% Last Modified by GUIDE v2.5 27-Mar-2020 17:11:57
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -83,17 +83,24 @@ function edit1_Callback(hObject, eventdata, handles)
 %        str2double(get(hObject,'String')) returns contents of edit1 as a double
 global pcd1;
 global TR;
+global flag;
 TR=[0.0 0.0 0.0];
-pcd1path=get(hObject,'String');
-pcd1=pcread(pcd1path{1});
-pcd1=pcd1.Location;
-pcd1=pcd1+TR;
-R=rotx(-90);
-pcd1=R*pcd1';
-pcd1=pcd1';
+path = '/home/yaoshw/Downloads';
+if (flag)
+    pcd1path=get(hObject,'String');
+    pcd1=pcread(pcd1path);
+    pcd1=pcd1.Location;
+    pcd1=pcd1+TR;
+    R=rotx(-90);
+    pcd1=R*pcd1';
+    pcd1=pcd1';
+else
+    pcd1path=get(hObject,'String');
+    pcd1 = importdata([path '/points/pcd_' pcd1path '.txt']); 
+end
 pcd1=[pcd1;[0 0 0];[0 0.2 0 ];[0 0.4 0]];
-pcd1(pcd1(:,3)>0.05,:)=[];
-pcd1(pcd1(:,3)<-0.2,:)=[];
+% pcd1(pcd1(:,3)>0.2,:)=[];
+% pcd1(pcd1(:,3)<-0.2,:)=[];
 
 
 % --- Executes during object creation, after setting all properties.
@@ -118,22 +125,28 @@ function edit2_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of edit2 as text
 %        str2double(get(hObject,'String')) returns contents of edit2 as a double
 global pcd2;
-global x y rot_x rot_y rot_z TR;
+global x y rot_x rot_y rot_z TR flag;
 x=0;
 y=0;
 rot_x=0;
 rot_y=0;
 rot_z=0;
-pcd2path=get(hObject,'String');
-pcd2=pcread(pcd2path{1});
-pcd2=pcd2.Location;
-pcd2=pcd2+TR;
-R=rotx(-90);
-pcd2=R*pcd2';
-pcd2=pcd2';
+path = '/home/yaoshw/Downloads';
+if (flag)
+    pcd2path=get(hObject,'String');
+    pcd2=pcread(pcd2path);
+    pcd2=pcd2.Location;
+    pcd2=pcd2+TR;
+    R=rotx(-90);
+    pcd2=R*pcd2';
+    pcd2=pcd2';
+else
+    pcd2path=get(hObject,'String');
+    pcd2 = importdata([path '/points/pcd_' pcd2path '.txt']);
+end
 pcd2=[pcd2;[0 0 0];[0 0.2 0 ];[0 0.4 0]];
-pcd2(pcd2(:,3)>0.05,:)=[];
-pcd2(pcd2(:,3)<-0.2,:)=[];
+% pcd2(pcd2(:,3)>0.2,:)=[];
+% pcd2(pcd2(:,3)<-0.2,:)=[];
 
 
 % --- Executes during object creation, after setting all properties.
@@ -323,3 +336,25 @@ function slider5_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
+
+% --- Executes on mouse motion over figure - except title and menu.
+function figure1_WindowButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% --- Executes on mouse motion over figure - except title and menu.
+function figure1_WindowButtonMotionFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in radiobutton1.
+function radiobutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton1
+global flag;
+flag = get(hObject,'Value');

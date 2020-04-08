@@ -1,13 +1,12 @@
 %% 根据指定范围的scan合成子图，观察每一帧在子图中的位置，以前端位姿（IMU）为依据
 close all;
-clear all;
 path='/home/yaoshw/Downloads';
 fornt_estimate_pose   = importdata([path '/pose info.txt']);
 % 根据指定范围的scan创建submap
 submap = [];
-S = 1700;
-E = 1795;
-G = 5;
+S = 1;
+E = 120;
+G = 1;
 for i = S:G:E
     point = importdata([path '/points/pcd_' num2str(i-1) '.txt']);
     if(isempty(point))
@@ -36,6 +35,6 @@ for i = S:G:E
     scatter3(point(:,1),point(:,2),point(:,3),10,'r','filled');
     title(i);
     view(0,90);
-    pause(0.5);
+    pause(0.2);
     hold off;
 end

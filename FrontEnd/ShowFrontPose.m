@@ -21,27 +21,27 @@ for i=1:length(fornt_estimate_pose)
     eulerAngles = fliplr(rotm2eul(pose_estR,'ZYX'));
     R_estimate=[R_estimate;eulerAngles];
 end
-figure;
-subplot 311
-plot(T_prediction(:,1),'r')
-hold on;plot(T_estimate(:,1),'g')
-title("前端结果每帧位姿在三个轴上的变化")
-subplot 312
-plot(T_prediction(:,2),'r')
-hold on;plot(T_estimate(:,2),'g')
-subplot 313
-plot(T_prediction(:,3),'r')
-hold on;plot(T_estimate(:,3),'g')
-
-figure;
-subplot 311
-plot(R_prediction(:,1),'r')
-hold on;plot(R_estimate(:,1),'g--')
-title("前端结果每帧位姿旋转欧拉角变化")
-subplot 312
-plot(R_prediction(:,2),'r')
-hold on;plot(R_estimate(:,2),'g--')
-subplot 313
-plot(R_prediction(:,3),'r')
-hold on;plot(R_estimate(:,3),'g--')
+% figure;
+% subplot 311
+% plot(T_prediction(:,1),'r')
+% hold on;plot(T_estimate(:,1),'g')
+% title("前端结果每帧位姿在三个轴上的变化")
+% subplot 312
+% plot(T_prediction(:,2),'r')
+% hold on;plot(T_estimate(:,2),'g')
+% subplot 313
+% plot(T_prediction(:,3),'r')
+% hold on;plot(T_estimate(:,3),'g')
+% 
+% figure;
+% subplot 311
+% plot(R_prediction(:,1),'r')
+% hold on;plot(R_estimate(:,1),'g--')
+% title("前端结果每帧位姿旋转欧拉角变化")
+% subplot 312
+% plot(R_prediction(:,2),'r')
+% hold on;plot(R_estimate(:,2),'g--')
+% subplot 313
+% plot(R_prediction(:,3),'r')
+% hold on;plot(R_estimate(:,3),'g--')
 end

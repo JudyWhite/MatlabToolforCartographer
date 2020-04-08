@@ -52,11 +52,13 @@ q = rotm2quat(R)
 % rotationVector = rotationMatrixToVector(rotationMatrix)
 % rotationVector = 1×3
 % 0         0   -1.5708
-rotationVector = rotationMatrixToVector(R) %返回为θn,即Axis with angle magnitude (radians)
-rotationVector = vrrotmat2vec(R)%两个函数实现类似的功能，返回值为Axis-angle ：Axis x y z Angle (radians)
+rotationVector1 = rotationMatrixToVector(R) %返回为θn,即Axis with angle magnitude (radians)
+rotationVector2 = vrrotmat2vec(R)%两个函数实现类似的功能，返回值为Axis-angle ：Axis x y z Angle (radians)
 %逆变换函数
-rotationVectorToMatrix 
-vrrotvec2mat
+rotationVectorToMatrix(rotationVector1)
+vrrotvec2mat(rotationVector2)
 
 %% 计算两个向量之间的旋转矩阵轴角结果
+a=[1 0 0];
+b=[0 1 0];
 r = vrrotvec(a,b)  %Ra = b, r = vrrotmat2vec(R)

@@ -9,7 +9,7 @@ fornt_estimate_pose   = importdata([path '/pose info.txt']);
 Len=64;
 cb=[[linspace(1,0,Len)]',[linspace(1,0,Len)]',[linspace(1,0,Len)]'];
 
-for i = 270:273
+for i = 1:273
     submap = importdata([path '/front_submap/node' num2str(i+2) '_0.txt']);
     point = importdata([path '/points/pcd_' num2str(i-1) '.txt']);
     
@@ -27,7 +27,7 @@ for i = 270:273
 %     point(point(:,3)~=layer,:)=[];
 %     point(point(:,3)<0,:)=[];
     submap(submap(:,4)<0.51,:)=[];
-    scatter3(submap(:,1),submap(:,2),submap(:,3),10,'k','filled','MarkerFaceAlpha',1.0);
+    scatter3(submap(:,1),submap(:,2),submap(:,3),10,submap(:,4),'filled','MarkerFaceAlpha',1.0);
 %     scatter3(submap(:,1),submap(:,2),submap(:,3),20,[0.5 0.5 0.5],'filled','MarkerFaceAlpha',0.5);
     colorbar;
     set(gcf,'colormap',cb);

@@ -1,4 +1,4 @@
-clear all;close all;
+close all;
 %% 逐个显示回环帧与子图的匹配情况
 addpath('/home/yaoshw/matlabcode/Cartographer/DBSCAN')
 addpath('/home/yaoshw/matlabcode/Cartographer/FrontEnd')
@@ -10,9 +10,9 @@ scan_index = loop(:,1);
 submap_index = loop(:,2);
 resolution = 0.02;
 score = [];
-for i = 48 %1:length(scan_index)
+for i = 61%1:length(scan_index)
     scan_ori = importdata([path '/points/pcd_' num2str(scan_index(i)) '.txt']);
-    scan_ori = [scan_ori;[0 0 0]];%增加一个原点
+    scan_ori = [scan_ori;[0 0 0];[0 0.2 0];[0 0.4 0]];%增加一个原点
     scan_seg = scan_ori;
     % DBSCAN聚类算法
     type = DBSCAN(scan_seg,0.2,80);
@@ -35,8 +35,8 @@ for i = 48 %1:length(scan_index)
     scan_label_poseT = label_pose(scan_index(i)+1,1:3);
     scan_label_poseR = quat2rotm(label_pose(scan_index(i)+1,4:7));
     submap_pose = importdata([path '/submap/submap_pose' num2str(submap_index(i)) '.txt']);
-    submap_poseT = submap_pose(2,1:3);
-    submap_poseR = quat2rotm(submap_pose(2,4:7));
+    submap_poseT = submap_pose(1,1:3);
+    submap_poseR = quat2rotm(submap_pose(1,4:7));
     label_R = submap_poseR\scan_label_poseR;
     label_T = submap_poseR\scan_label_poseT' - submap_poseR\submap_poseT';
     scan_label_in_loop = label_R*scan_ori' + label_T;

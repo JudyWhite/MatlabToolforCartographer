@@ -1,7 +1,7 @@
 %% 将point_index1和point_index2按照前端位姿（imu结果）绘制在submap_index中
-submap_index = 26;
-point_index1 = 2210;
-point_index2 = 4773;
+submap_index = 9;
+point_index1 = 904;
+point_index2 = 2810;
 path = '/home/yaoshw/Downloads';
 resolution = 0.02;
 

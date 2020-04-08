@@ -1,6 +1,6 @@
 close all;
-path = '/home/yaoshw/Downloads';
-for i=1:10:3240
+path = '/home/yaoshw/Downloads/ls';
+for i=4
     pcd = importdata([path '/points/pcd_' num2str(i) '.txt']);
     if(length(pcd)<200)
         continue;
@@ -13,7 +13,7 @@ for i=1:10:3240
     nor=sqrt(sum(pcd(:,1).*pcd(:,1)+pcd(:,2).*pcd(:,2)+pcd(:,3).*pcd(:,3),2));
     for j=1:length(pcd)
         row(ang(j))=row(ang(j))+1;
-        if(nor(j)>1.5)
+        if(nor(j)>1.0)
             valid_point_num = valid_point_num+1;
         end
     end
